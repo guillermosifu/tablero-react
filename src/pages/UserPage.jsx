@@ -30,6 +30,7 @@ import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+import { TransitionsModal } from '../components/modal/TransitionsModal';
 
 // ----------------------------------------------------------------------
 
@@ -87,6 +88,11 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpenModal = () => setIsOpen(true)
+  const handleCloseModal = () => setIsOpen(false)
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -157,7 +163,8 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+
+          <Button onClick={handleOpenModal} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New User
           </Button>
         </Stack>
@@ -258,6 +265,11 @@ export default function UserPage() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
+            <div>
+              ogsajasodj
+            </div>
+          </TransitionsModal>
         </Card>
       </Container>
 
