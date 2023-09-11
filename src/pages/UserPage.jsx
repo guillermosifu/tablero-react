@@ -31,6 +31,7 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import { TransitionsModal } from '../components/modal/TransitionsModal';
+import Inscripcion from '../components/modal/Inscripcion';
 
 // ----------------------------------------------------------------------
 
@@ -267,7 +268,7 @@ export default function UserPage() {
           />
           <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
             <div>
-              ogsajasodj
+           <Inscripcion/>
             </div>
           </TransitionsModal>
         </Card>
