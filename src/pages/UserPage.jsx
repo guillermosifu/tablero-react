@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -31,6 +31,8 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import { TransitionsModal } from '../components/modal/TransitionsModal';
+import { TableBasic } from '../components/tables/TableBasic';
+import { getUsers } from '../helpers/UsersPage/ApiUsers';
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +77,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
+  const [dataUsers, setDataUsers] = useState()
+
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -146,11 +150,116 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
+  useEffect(() => {
+    getUsers().then(res => {
+      if (res.statusCode == 200) {
+        setDataUsers(res.data)
+      }
+    })
+  }, [])
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
+
+    const json = [{
+      "address": "Urbanizacion Teresa de Calcuta",
+      "area": "Mecánico",
+      "birthDate": new Date('2000-01-01'),
+      "document": "73436411",
+      "email": "sebastiangerardo27@gmail.com",
+      "gender": "M",
+      "local": "San Isidro",
+      "mobile": "924102366",
+      "names": "Sebastian Gerardo",
+      "password": "123456",
+      "rol": 1,
+      "surnames": "Sanchez Abarca",
+      "typeDocument": "Dni",
+      "location": "010206"
+    }]
+
+    console.log(JSON.stringify({
+      "address": "Urbanizacion Teresa de Calcuta",
+      "area": "Mecánico",
+      "birthDate": new Date('2000-01-01'),
+      "document": "73436411",
+      "email": "sebastiangerardo27@gmail.com",
+      "gender": "M",
+      "local": "San Isidro",
+      "mobile": "924102366",
+      "names": "Sebastian Gerardo",
+      "password": "123456",
+      "rol": 1,
+      "surnames": "Sanchez Abarca",
+      "typeDocument": "Dni",
+      "location": "010206"
+    }))
+
+    const columns = [
+      {
+        name: "Name",
+        cell: (row) => {
+          return (
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Avatar alt={row.names} src={row.photos} />
+              <Typography variant="subtitle2" noWrap>
+                {row.names}
+              </Typography>
+            </Stack>
+          );
+        },
+        center: true,
+        omit: false
+      },
+      {
+        name: "Company",
+        cell: (row) => {
+          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
+        },
+        center: true,
+        omit: false
+      },
+      {
+        name: "Role",
+        cell: (row) => {
+          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
+        },
+        center: true,
+        omit: false
+      },
+      {
+        name: "Verified",
+        cell: (row) => {
+          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
+        },
+        center: true,
+        omit: false
+      },
+      {
+        name: "Status",
+        cell: () => {
+          return <Label color={('status' === 'banned' && 'error') || 'success'}>{sentenceCase('Active')}</Label>;
+        },
+        center: true,
+        omit: false
+      },
+      {
+        name: "",
+        cell: () => {
+          return (
+            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+              <Iconify icon={'eva:more-vertical-fill'} />
+            </IconButton>
+          )
+        },
+        center: true,
+        width: '8rem',
+        omit: false
+      },
+    ];
 
   return (
     <>
@@ -171,7 +280,7 @@ export default function UserPage() {
 
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
+          <TableBasic data={json} columns={columns} highlightOnHover selectableRows selectableRowsComponent={Checkbox} />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
