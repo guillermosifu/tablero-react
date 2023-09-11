@@ -1,59 +1,66 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+
+
+
 
 export default function Inscripcion() {
   return (
+    
+
+    
     <Box
       component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root': { m: 2, width: '35ch',  },
       }}
       noValidate
       autoComplete="off"
     >
       <div>
+      <Typography type="center" variant="h4" gutterBottom>
+         Inscripciones
+      </Typography>
+      
+
         <TextField
           required
           id="outlined-required"
-          label="Required"
-          defaultValue="Hello World"
+          label="Nombre"
+          defaultValue=""
         />
         <TextField
-          disabled
-          id="outlined-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
+          required
+          id="outlined-required"
+          label="Apellido"
+          defaultValue=""
         />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-        <TextField
-          id="outlined-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
+      <TextField
           id="outlined-number"
-          label="Number"
+          label="DNI"
           type="number"
           InputLabelProps={{
             shrink: true,
           }}
         />
-        <TextField id="outlined-search" label="Search field" type="search" />
         <TextField
-          id="outlined-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
+          required
+          id="outlined-required"
+          label="Área"
+          defaultValue=""
         />
+        <TextField
+          required
+          id="outlined-required"
+          label="Cargo"
+          defaultValue=""
+        />
+        
+      
+        
+        
       </div>
 
     </Box>
