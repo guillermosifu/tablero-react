@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import { Grid, TextField, Typography } from '@mui/material';
 
-
 export default function Inscription() {
   return (
     <Box md={{ width: '40rem' }}>
@@ -17,6 +16,9 @@ export default function Inscription() {
             label="Nombre"
             defaultValue=""
           />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -24,6 +26,8 @@ export default function Inscription() {
             label="Apellido"
             defaultValue=""
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -31,30 +35,38 @@ export default function Inscription() {
             label="Dirección"
             defaultValue=""
           />
-          <TextField
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <TextField
             fullWidth
             required
             id="outlined-required"
             label="'Documento'"
             defaultValue=""
           />
-            <TextField
+        </Grid>
+
+
+        <Grid item xs={12} sm={6}>
+        <TextField
             fullWidth
             required
             id="outlined-required"
             label="'local'"
             defaultValue=""
           />
-            <TextField
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <TextField
             fullWidth
             required
             id="outlined-required"
             label="'Telefono'"
             defaultValue=""
-          />
-
+          /> 
         </Grid>
-        <Grid item xs={12} sm={8}>
+
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -63,23 +75,24 @@ export default function Inscription() {
             defaultValue=""
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
+            fullWidth
             required
             id="outlined-required"
             label="Locación"
             defaultValue=""
           />
         </Grid>
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={6}>
           <TextField
+            fullWidth
             required
             id="outlined-required"
             label="Genero"
             defaultValue=""
           />
         </Grid>
-        
       </Grid>
     </Box>
   );
