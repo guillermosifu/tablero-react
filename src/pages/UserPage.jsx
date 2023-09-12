@@ -25,7 +25,7 @@ import USERLIST from '../_mock/user';
 import { TransitionsModal } from '../components/modal/TransitionsModal';
 import { TableBasic } from '../components/tables/TableBasic';
 import { getUsers } from '../helpers/UsersPage/ApiUsers';
-import Inscripcion from '../components/modal/Inscripcion';
+import Inscription from "../components/modal/Inscription";
 
 // ----------------------------------------------------------------------
 
@@ -296,7 +296,7 @@ export default function UserPage() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           /> */}
           <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
-            <Inscripcion/>
+            <Inscription/>
           </TransitionsModal>
         </Card>
       </Container>
