@@ -5,46 +5,27 @@ import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
-  Table,
   Stack,
-  Paper,
   Avatar,
   Button,
   Popover,
   Checkbox,
-  TableRow,
   MenuItem,
-  TableBody,
-  TableCell,
   Container,
   Typography,
   IconButton,
-  TableContainer,
-  TablePagination,
 } from '@mui/material';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
-import Scrollbar from '../components/scrollbar';
 // sections
-import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 import { TransitionsModal } from '../components/modal/TransitionsModal';
 import { TableBasic } from '../components/tables/TableBasic';
 import { getUsers } from '../helpers/UsersPage/ApiUsers';
 import Inscripcion from '../components/modal/Inscripcion';
-
-// ----------------------------------------------------------------------
-
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
-];
 
 // ----------------------------------------------------------------------
 
@@ -113,30 +94,6 @@ export default function UserPage() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -159,45 +116,8 @@ export default function UserPage() {
     })
   }, [])
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-
-  const isNotFound = !filteredUsers.length && !!filterName;
-
-    const json = [{
-      "address": "Urbanizacion Teresa de Calcuta",
-      "area": "Mecánico",
-      "birthDate": new Date('2000-01-01'),
-      "document": "73436411",
-      "email": "sebastiangerardo27@gmail.com",
-      "gender": "M",
-      "local": "San Isidro",
-      "mobile": "924102366",
-      "names": "Sebastian Gerardo",
-      "password": "123456",
-      "rol": 1,
-      "surnames": "Sanchez Abarca",
-      "typeDocument": "Dni",
-      "location": "010206"
-    }]
-
-    console.log(JSON.stringify({
-      "address": "Urbanizacion Teresa de Calcuta",
-      "area": "Mecánico",
-      "birthDate": new Date('2000-01-01'),
-      "document": "73436411",
-      "email": "sebastiangerardo27@gmail.com",
-      "gender": "M",
-      "local": "San Isidro",
-      "mobile": "924102366",
-      "names": "Sebastian Gerardo",
-      "password": "123456",
-      "rol": 1,
-      "surnames": "Sanchez Abarca",
-      "typeDocument": "Dni",
-      "location": "010206"
-    }))
 
     const columns = [
       {
@@ -281,8 +201,8 @@ export default function UserPage() {
 
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          <TableBasic data={json} columns={columns} highlightOnHover selectableRows selectableRowsComponent={Checkbox} />
-          <Scrollbar>
+          <TableBasic data={dataUsers} columns={columns} highlightOnHover selectableRows selectableRowsComponent={Checkbox} />
+          {/* <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
@@ -364,9 +284,9 @@ export default function UserPage() {
                 )}
               </Table>
             </TableContainer>
-          </Scrollbar>
+          </Scrollbar> */}
 
-          <TablePagination
+          {/* <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={USERLIST.length}
@@ -374,11 +294,9 @@ export default function UserPage() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
           <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
-            <div>
-           <Inscripcion/>
-            </div>
+            <Inscripcion/>
           </TransitionsModal>
         </Card>
       </Container>

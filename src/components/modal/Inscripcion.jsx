@@ -1,68 +1,56 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-
-
-
+import { Grid, TextField, Typography } from '@mui/material';
 
 export default function Inscripcion() {
   return (
-    
-
-    
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 2, width: '35ch',  },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-      <Typography type="center" variant="h4" gutterBottom>
-         Inscripciones
+    <Box md={{ width: '40rem' }}>
+      <Typography variant="h5" style={ {marginBottom: '15px'} } gutterBottom>
+        Nuevo Usuario
       </Typography>
-      
-
-        <TextField
-          required
-          id="outlined-required"
-          label="Nombre"
-          defaultValue=""
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Apellido"
-          defaultValue=""
-        />
-      <TextField
-          id="outlined-number"
-          label="DNI"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Área"
-          defaultValue=""
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Cargo"
-          defaultValue=""
-        />
-        
-      
-        
-        
-      </div>
-
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={8}>
+          <TextField
+          fullWidth
+            required
+            id="outlined-required"
+            label="Nombre"
+            defaultValue=""
+          />  
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            fullWidth
+            required
+            id="outlined-required"
+            label="Nombre"
+            defaultValue=""
+          />  
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Nombre"
+            defaultValue=""
+          />  
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Nombre"
+            defaultValue=""
+          />  
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Nombre"
+            defaultValue=""
+          />  
+        </Grid>
+      </Grid>
     </Box>
   );
 }
