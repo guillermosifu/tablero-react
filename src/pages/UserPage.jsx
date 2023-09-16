@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useEffect, useState } from 'react';
+import { Helmet } from "react-helmet-async";
+import { filter } from "lodash";
+import { sentenceCase } from "change-case";
+import { useEffect, useState } from "react";
 // @mui
 import {
   Card,
@@ -9,23 +9,21 @@ import {
   Avatar,
   Button,
   Popover,
-  Checkbox,
   MenuItem,
   Container,
   Typography,
   IconButton,
-} from '@mui/material';
+} from "@mui/material";
 // components
-import Label from '../components/label';
-import Iconify from '../components/iconify';
+import Label from "../components/label";
+import Iconify from "../components/iconify";
 // sections
-import { UserListToolbar } from '../sections/@dashboard/user';
+import { UserListToolbar } from "../sections/@dashboard/user";
 // mock
-import USERLIST from '../_mock/user';
-import { TransitionsModal } from '../components/modal/TransitionsModal';
-import { TableBasic } from '../components/tables/TableBasic';
-import { getUsers } from '../helpers/UsersPage/ApiUsers';
-import Inscripcion from '../components/modal/Inscripcion';
+import { TransitionsModal } from "../components/modal/TransitionsModal";
+import { TableBasic } from "../components/tables/TableBasic";
+import { getUsers } from "../helpers/UsersPage/ApiUsers";
+import Inscripcion from "../components/modal/Inscripcion";
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +38,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -53,32 +51,29 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
 export default function UserPage() {
-  const [dataUsers, setDataUsers] = useState()
+  const [dataUsers, setDataUsers] = useState([]);
 
   const [open, setOpen] = useState(null);
 
-  const [page, setPage] = useState(0);
+  const [order, setOrder] = useState("asc");
 
-  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState("name");
 
-  const [selected, setSelected] = useState([]);
+  const [filterName, setFilterName] = useState("");
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [filterName, setFilterName] = useState('');
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const [isOpen, setIsOpen] = useState(false)
-
-  const handleOpenModal = () => setIsOpen(true)
-  const handleCloseModal = () => setIsOpen(false)
+  const handleOpenModal = () => setIsOpen(true);
+  const handleCloseModal = () => setIsOpen(false);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -89,98 +84,30 @@ export default function UserPage() {
   };
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
   const handleFilterByName = (event) => {
-    setPage(0);
     setFilterName(event.target.value);
   };
 
   useEffect(() => {
-    getUsers().then(res => {
+    getUsers().then((res) => {
       if (res.statusCode == 200) {
-        setDataUsers(res.data)
+        setDataUsers(res.data);
       }
-    })
-  }, [])
+    });
+  }, []);
 
+  const filteredUsers = applySortFilter(
+    dataUsers,
+    getComparator(order, orderBy),
+    filterName
+  );
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-
-    const columns = [
-      {
-        name: "Name",
-        cell: (row) => {
-          return (
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Avatar alt={row.names} src={row.photos} />
-              <Typography variant="subtitle2" noWrap>
-                {row.names}
-              </Typography>
-            </Stack>
-          );
-        },
-        center: true,
-        omit: false
-      },
-      {
-        name: "Company",
-        cell: (row) => {
-          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
-        },
-        center: true,
-        omit: false
-      },
-      {
-        name: "Role",
-        cell: (row) => {
-          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
-        },
-        center: true,
-        omit: false
-      },
-      {
-        name: "Verified",
-        cell: (row) => {
-          return <p className="text-gray-500 font-bold truncate text-start">{row?.names || "---"}</p>;
-        },
-        center: true,
-        omit: false
-      },
-      {
-        name: "Status",
-        cell: () => {
-          return <Label color={('status' === 'banned' && 'error') || 'success'}>{sentenceCase('Active')}</Label>;
-        },
-        center: true,
-        omit: false
-      },
-      {
-        name: "",
-        cell: () => {
-          return (
-            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-              <Iconify icon={'eva:more-vertical-fill'} />
-            </IconButton>
-          )
-        },
-        center: true,
-        width: '8rem',
-        omit: false
-      },
-    ];
+  const { columns } = columnsUserPage({ handleOpenMenu })
 
   return (
     <>
@@ -189,114 +116,37 @@ export default function UserPage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
 
-          <Button onClick={handleOpenModal} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button
+            onClick={handleOpenModal}
+            variant="contained"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
             New User
           </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          <TableBasic data={dataUsers} columns={columns} highlightOnHover selectableRows selectableRowsComponent={Checkbox} />
-          {/* <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
-
-                    return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
-                        </TableCell>
-
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
-                            <Typography variant="subtitle2" noWrap>
-                              {name}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-
-                        <TableCell align="left">{company}</TableCell>
-
-                        <TableCell align="left">{role}</TableCell>
-
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-                        <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
-
-                        <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-
-                {isNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <Typography variant="h6" paragraph>
-                            Not found
-                          </Typography>
-
-                          <Typography variant="body2">
-                            No results found for &nbsp;
-                            <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
-                          </Typography>
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar> */}
-
-          {/* <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          /> */}
+          <UserListToolbar
+            filterName={filterName}
+            onFilterName={handleFilterByName}
+          />
+          <TableBasic
+            data={filteredUsers}
+            columns={columns}
+            highlightOnHover
+          />
           <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
-            <Inscripcion/>
+            <Inscripcion />
           </TransitionsModal>
         </Card>
       </Container>
@@ -305,30 +155,108 @@ export default function UserPage() {
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         PaperProps={{
           sx: {
             p: 1,
             width: 140,
-            '& .MuiMenuItem-root': {
+            "& .MuiMenuItem-root": {
               px: 1,
-              typography: 'body2',
+              typography: "body2",
               borderRadius: 0.75,
             },
           },
         }}
       >
         <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+        <MenuItem sx={{ color: "error.main" }}>
+          <Iconify icon={"eva:trash-2-outline"} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>
     </>
   );
 }
+
+const columnsUserPage = ({ handleOpenMenu }) => {
+  const columns = [
+    {
+      "name": "Name",
+      cell: (row) => {
+        return (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Avatar alt={row.names} src={row.photos} />
+            <Typography variant="subtitle2" noWrap>
+              {row.names}
+            </Typography>
+          </Stack>
+        );
+      },
+      "center": "true",
+    },
+    {
+      "name": "Company",
+      cell: (row) => {
+        return (
+          <p className="text-gray-500 font-bold truncate text-start">
+            {row?.names || "---"}
+          </p>
+        );
+      },
+      "center": "true",
+    },
+    {
+      "name": "Role",
+      cell: (row) => {
+        return (
+          <p className="text-gray-500 font-bold truncate text-start">
+            {row?.names || "---"}
+          </p>
+        );
+      },
+      "center": "true",
+    },
+    {
+      "name": "Verified",
+      cell: (row) => {
+        return (
+          <p className="text-gray-500 font-bold truncate text-start">
+            {row?.names || "---"}
+          </p>
+        );
+      },
+      "center": "true",
+    },
+    {
+      "name": "Status",
+      cell: () => {
+        return (
+          <Label color={("status" === "banned" && "error") || "success"}>
+            {sentenceCase("Active")}
+          </Label>
+        );
+      },
+      "center": "true",
+    },
+    {
+      "name": "",
+      cell: () => {
+        return (
+          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+            <Iconify icon={'eva:more-vertical-fill'} />
+          </IconButton>
+        )
+      },
+      "center": "true",
+      "width": '8rem',
+    },
+  ];
+  return {
+    columns,
+  };
+};
