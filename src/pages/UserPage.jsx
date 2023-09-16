@@ -20,10 +20,11 @@ import Iconify from "../components/iconify";
 // sections
 import { UserListToolbar } from "../sections/@dashboard/user";
 // mock
-import { TransitionsModal } from "../components/modal/TransitionsModal";
-import { TableBasic } from "../components/tables/TableBasic";
-import { getUsers } from "../helpers/UsersPage/ApiUsers";
-import Inscripcion from "../components/modal/Inscripcion";
+import USERLIST from '../_mock/user';
+import { TransitionsModal } from '../components/modal/TransitionsModal';
+import { TableBasic } from '../components/tables/TableBasic';
+import { getUsers } from '../helpers/UsersPage/ApiUsers';
+import Inscription from "../components/modal/Inscription";
 
 // ----------------------------------------------------------------------
 
@@ -146,7 +147,7 @@ export default function UserPage() {
             highlightOnHover
           />
           <TransitionsModal isOpen={isOpen} onClose={handleCloseModal}>
-            <Inscripcion />
+            <Inscription/>
           </TransitionsModal>
         </Card>
       </Container>
