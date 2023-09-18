@@ -1,10 +1,22 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as Yup from "yup";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import {
+  Link,
+  Stack,
+  IconButton,
+  InputAdornment,
+  Checkbox,
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 // components
-import Iconify from '../../../components/iconify';
+import Iconify from "../../../components/iconify";
+// hook form
+import { InputField } from "../../../components/inputs/InputField";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { postLogin } from "../../../helpers/ApiUsers";
 
 // ----------------------------------------------------------------------
 
@@ -13,41 +25,78 @@ export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = () => {
+    // postLogin(values).then(res => {
+    //   if (res.statusCode == 200) {
+    //     console.log(res)
+    //   }
+    // })
+    navigate("/dashboard/user", { replace: true, state: { logged: true } });
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
-
-        <TextField
+        <InputField
+          label="Correo"
+          name="email"
+          control={control}
+          errors={errors}
+          type="email"
+        />
+        <InputField
+          label="Contraseña"
           name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  <Iconify
+                    icon={showPassword ? "eva:eye-fill" : "eva:eye-off-fill"}
+                  />
                 </IconButton>
               </InputAdornment>
             ),
           }}
+          control={control}
+          errors={errors}
         />
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ my: 2 }}
+      >
         <Checkbox name="remember" label="Remember me" />
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
-        Login
+      <LoadingButton fullWidth size="large" type="submit" variant="contained">
+        Iniciar sesión
       </LoadingButton>
-    </>
+    </form>
   );
 }
+
+const validationSchema = Yup.object().shape({
+  password: Yup.string().required("La contraseña es obligatoria"),
+  email: Yup.string()
+    .email("Ingrese un correo válido")
+    .required("El correo es obligatorio"),
+});
