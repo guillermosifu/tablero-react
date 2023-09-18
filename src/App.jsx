@@ -8,6 +8,7 @@ import ThemeProvider from './theme';
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
 
+
 function App() {
   
 
@@ -15,9 +16,9 @@ function App() {
     <HelmetProvider>
       <BrowserRouter>
         <ThemeProvider>
-          <ScrollToTop />
-          <StyledChart />
-          <Router />
+            <ScrollToTop />
+            <StyledChart />
+            <Router />
         </ThemeProvider>
       </BrowserRouter>
     </HelmetProvider>

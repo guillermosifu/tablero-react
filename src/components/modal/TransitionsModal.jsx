@@ -10,11 +10,16 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 'auto',
+  width: {xs: '85%', md: 'auto'},
+  maxHeight: '80vh',
+  overflow: 'auto',
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 3,
 };
+
+
+
 
 export function TransitionsModal({ isOpen, onClose, children }) {
   return (
@@ -33,7 +38,7 @@ export function TransitionsModal({ isOpen, onClose, children }) {
         }}
       >
         <Fade in={isOpen}>
-          <Box sx={style}>
+          <Box sx={style} >
             {children}
           </Box>
         </Fade>
