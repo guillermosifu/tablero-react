@@ -211,7 +211,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <InputField
               label="Dirección"
               name="address"
@@ -219,7 +219,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <DateField
               label="Fecha de nacimiento"
               name="birthDate"
@@ -227,7 +227,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <SelectFieldAsync
               label="Rol"
               name="rol"
@@ -237,7 +237,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <InputField
               label="Area"
               name="area"
@@ -245,7 +245,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <InputField
               label="Correo"
               name="email"
@@ -253,7 +253,7 @@ export function Inscription({ handleCloseModal, handleRefresh, infoUser }) {
               errors={errors}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <InputField
               label="Contraseña"
               name="password"
