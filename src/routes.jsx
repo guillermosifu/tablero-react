@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -11,6 +12,9 @@ import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import { PrivateRouter } from './router/PrivateRouter';
 
+// dinamic imports
+const Attendance = lazy(() => import('./pages/Attendance/Attendance'))
+
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -22,6 +26,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
+        { path: 'attendance', element: <Suspense fallback={null}><Attendance /></Suspense> }, // en ves de null, ir un loading
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
       ],
