@@ -21,6 +21,11 @@ const navConfig = [
     path: '/dashboard/attendance',
     icon: icon('ic_cart'),
   },
+  {
+    title: 'Lista',
+    path: '/dashboard/list',
+    icon: icon('ic_cart'),
+  },
   // {
   //   title: 'product',
   //   path: '/dashboard/products',

@@ -11,13 +11,16 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import { PrivateRouter } from './router/PrivateRouter';
+import ProductsContext from '@pages/Products/context/ProductsContext';
 
 // dinamic imports
 const Attendance = lazy(() => import('./pages/Attendance/Attendance'))
+const ListProducts = lazy(() => import('./pages/Products/ListProducts'))
+const Product = lazy(() => import('./pages/Products/Product'))
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+export default function Router () {
   const routes = useRoutes([
     {
       path: '/dashboard',
@@ -27,6 +30,18 @@ export default function Router() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'attendance', element: <Suspense fallback={null}><Attendance /></Suspense> }, // en ves de null, ir un loading
+        {
+          path: 'list', element:
+            <ProductsContext>
+              <Suspense fallback={null}><ListProducts /></Suspense>
+            </ProductsContext>
+        }, // en ves de null, ir un loading
+        {
+          path: 'list/new', element:
+            <ProductsContext>
+              <Suspense fallback={null}><Product /></Suspense>
+            </ProductsContext>
+        }, // en ves de null, ir un loading
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
       ],

@@ -38,7 +38,7 @@ export const InputField = ({ name, label, control, errors = {}, ...props }) => {
         {...props}
         {...restField}
       />
-      <Typography
+      {errorValidation && (<Typography
         variant="subtitle2"
         component="p"
         className="text-start text-xs text-color_secondary pl-2"
@@ -54,8 +54,8 @@ export const InputField = ({ name, label, control, errors = {}, ...props }) => {
           whiteSpace: "nowrap",
         }}
       >
-        {errorValidation && errors[name]?.message}
-      </Typography>
+        {errors[name]?.message}
+      </Typography>)}
     </FormControl>
   );
 };
