@@ -1,9 +1,8 @@
 import { InputField } from "@components/inputs/InputField";
-import { Checkbox, FormControl, FormControlLabel, InputLabel, Select, Switch, TextField } from "@mui/material";
-import MultipleSelect from "./MultiSelect";
+import { FormControl, InputLabel, Select } from "@mui/material";
 import TagsSelect from "./TagsSelect";
 
-export default function PropertiesSection ({control, errors, register, dataColors, dataTalla, productSelected, saleLabelSwitch, newLabelSwitch, handleChangeNewLabel, handleChangeSaleLabel}) {
+export default function PropertiesSection ({control, errors, register}) {
   return (
     <section className='flex'>
       <aside className='w-[35%]'>
@@ -58,24 +57,8 @@ export default function PropertiesSection ({control, errors, register, dataColor
               </Select>
               {errors.category && <p className="text-red-500 ml-2 text-[12px] -mt-2 font-semibold">{errors.category?.message}</p>}
             </FormControl>
-            <MultipleSelect register={register} name="colors" label="Colores" data={dataColors} />
-            <MultipleSelect register={register} name="size" label="Tallas" data={dataTalla} />
           </article>
           <TagsSelect />
-          <article>
-            <h6 className="mt-4 mb-2 text-sm font-semibold">Género</h6>
-            <FormControlLabel control={<Checkbox defaultChecked={productSelected?.men} {...register('men')} />} label="Hombres" />
-            <FormControlLabel control={<Checkbox defaultChecked={productSelected?.women} {...register('women')} />} label="Mujeres" />
-            <FormControlLabel control={<Checkbox defaultChecked={productSelected?.kids} {...register('kids')} />} label="Niños" />
-          </article>
-          <div className='w-full flex items-center gap-4'>
-            <Switch defaultChecked={saleLabelSwitch} onChange={handleChangeSaleLabel} />
-            <TextField {...register('sale_label')} disabled={!saleLabelSwitch} className='w-5/6' id="outlined-basic" label="Venta de Etiquetas" variant="outlined" />
-          </div>
-          <div className='w-full flex items-center gap-4'>
-            <Switch defaultChecked={newLabelSwitch} onChange={handleChangeNewLabel} />
-            <TextField {...register('new_label')} disabled={!newLabelSwitch} className='w-5/6' id="outlined-basic" label="Venta de Etiquetas" variant="outlined" />
-          </div>
         </div>
       </section>
     </section>

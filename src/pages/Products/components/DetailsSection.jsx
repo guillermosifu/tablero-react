@@ -1,9 +1,8 @@
 import { InputField } from "@components/inputs/InputField";
 import { TextareaAutosize } from "@mui/material";
-import ReactQuill from "react-quill";
 import SelectFiels from "./SelectFiles";
 
-export default function DetailsSection ({errors, control, register, editorContent, onEditorStateChange}) {
+export default function DetailsSection ({errors, control, register}) {
   return (
     <section className="flex">
       <aside className="w-[35%]">
@@ -23,20 +22,10 @@ export default function DetailsSection ({errors, control, register, editorConten
               color={`${errors.description && 'danger'}`}
               placeholder="Descripción"
               minRows={5}
-              sx={{
-                '&:focus-within': {
-                  borderColor: '#ef4444',
-                },
-              }}
               className={`w-full p-3 border rounded-md resize-none ${errors.description && 'border-red-500'}`}
               {...register('description')}
             />
             {errors.description && <p className="text-red-500 ml-2 text-[12px] -mt-2 font-semibold">{errors.description.message}</p>}
-          </div>
-          <div className="">
-            <h6 className="mt-4 mb-2 text-sm font-semibold">Contenido</h6>
-            <ReactQuill className={`${errors.emailContent ? `border-red-500 border` : ''} rounded-md`} theme="snow" value={editorContent} onChange={onEditorStateChange} />
-            {errors.emailContent && <p className=" text-red-500 ml-2 text-[12px] font-semibold">{errors.emailContent.message}</p>}
           </div>
           <div>
             <h6 className="mt-4 mb-2 text-sm font-semibold">Imágenes</h6>
